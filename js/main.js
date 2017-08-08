@@ -21,13 +21,17 @@ if (!Detector.webgl) {
             /* Camera */
 
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-            // camera.position.x = -8;
-            // camera.position.y = 5;
-            // camera.position.z = -8;
+            camera.position.x = 10;
+            camera.position.y = 10;
+            camera.position.z = -60;
+            // camera.position.x = 0;
+            // camera.position.y = 0;
+            // camera.position.z = 0;
 
-            camera.position.x = 52.23634861300164;
-            camera.position.y = 16.330320070845936;
-            camera.position.z = 496.9956584618866;
+
+            // camera.position.x = 0;
+            // camera.position.y = 16.330320070845936;
+            // camera.position.z = 496.9956584618866;
 
             //{x: 52.23634861300164, y: -16.330320070845936, z: 496.9956584618866}
 
@@ -35,16 +39,16 @@ if (!Detector.webgl) {
 
             scene = new THREE.Scene();
 
-            ambient = new THREE.AmbientLight(0xffffff, 1.0);
+            ambient = new THREE.AmbientLight(0xffffff, 0.75);
             scene.add(ambient);
 
-            keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
+            keyLight = new THREE.DirectionalLight(0xffffff, 0.75);
             keyLight.position.set(-100, 0, 100);
 
-            fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
+            fillLight = new THREE.DirectionalLight(0xffffff, 0.50);
             fillLight.position.set(100, 0, 100);
 
-            backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+            backLight = new THREE.DirectionalLight(0xffffff, 0.75);
             backLight.position.set(100, 0, -100).normalize();
 
             /* Model */
@@ -64,7 +68,7 @@ if (!Detector.webgl) {
                 var objLoader = new THREE.OBJLoader();
                 objLoader.setMaterials(materials);
                 objLoader.setPath('assets/');
-                objLoader.load('Test_008.obj', function (object) {
+                objLoader.load('dental2.obj', function (object) {
 
                     scene.add(object);
 
@@ -94,8 +98,8 @@ if (!Detector.webgl) {
             controls.enableDamping = true;
             controls.dampingFactor = 0.25;
             controls.enableZoom = true;
-            controls.minDistance = 100;
-            controls.maxDistance = 500;
+            controls.minDistance = 3;
+            controls.maxDistance = 10;
 
             /* Lighting */
 
