@@ -21,9 +21,15 @@ if (!Detector.webgl) {
             /* Camera */
 
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-            camera.position.x = -8;
-            camera.position.y = 5;
-            camera.position.z = -8;
+            // camera.position.x = -8;
+            // camera.position.y = 5;
+            // camera.position.z = -8;
+
+            camera.position.x = 52.23634861300164;
+            camera.position.y = 16.330320070845936;
+            camera.position.z = 496.9956584618866;
+
+            //{x: 52.23634861300164, y: -16.330320070845936, z: 496.9956584618866}
 
             /* Scene */
 
@@ -42,6 +48,8 @@ if (!Detector.webgl) {
             backLight.position.set(100, 0, -100).normalize();
 
             /* Model */
+            //  {_x: -0.11757140195856036, _y: 0.10400203356117892, _z: 0.012261571286953826,
+
 
             var mtlLoader = new THREE.MTLLoader();
             mtlLoader.setBaseUrl('assets/');
@@ -66,15 +74,19 @@ if (!Detector.webgl) {
 
             /* Renderer */
 
-            renderer = new THREE.WebGLRenderer();
-            renderer.setPixelRatio(window.devicePixelRatio);
-            //var w = container.offsetWidth;
-            // var h = container.offsetHeight;
 
-            renderer.setSize(window.innerWidth * .7, window.innerHeight * .7 );
-            renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+
+            renderer.setSize(container.innerWidth, container.innerHeight);
+            renderer.autoClear = false;
+            renderer.setClearColor(0x000000, 0.0);
+
 
             container.appendChild(renderer.domElement);
+
 
             /* Controls */
 
@@ -82,6 +94,8 @@ if (!Detector.webgl) {
             controls.enableDamping = true;
             controls.dampingFactor = 0.25;
             controls.enableZoom = true;
+            controls.minDistance = 100;
+            controls.maxDistance = 500;
 
             /* Lighting */
 
@@ -106,7 +120,7 @@ if (!Detector.webgl) {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
 
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(container.innerWidth, container.innerHeight);
 
         }
 
@@ -136,19 +150,37 @@ if (!Detector.webgl) {
             }
 
         }
+        function resizeCanvasToDisplaySize(force) {
+          const canvas = renderer.domElement;
+          const width = canvas.clientWidth;
+          const height = canvas.clientHeight;
+          if (force || canvas.width !== width ||canvas.height !== height) {
+            // you must pass false here or three.js sadly fights the browser
+            renderer.setSize(width, height, false);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+
+            // set render target sizes here
+          }
+        }
 
         function animate() {
 
             requestAnimationFrame(animate);
 
             controls.update();
+  resizeCanvasToDisplaySize();
+
 
             render();
 
         }
+        resizeCanvasToDisplaySize(true);
+
 
         function render() {
 
             renderer.render(scene, camera);
 
         }
+
